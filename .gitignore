@@ -1,7 +1,6 @@
 node_modules
 .env
 fill_DB.js
-config.js
 data.cars.js
 data.drivers.js
 data.js

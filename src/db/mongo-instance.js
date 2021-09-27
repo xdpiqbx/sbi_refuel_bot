@@ -1,15 +1,15 @@
-const config = require("../config")
+const config = require('../config');
 
-const mongoose = require("mongoose")
+const mongoose = require('mongoose');
 
 mongoose
   .connect(config.DB_URL, {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
+    useUnifiedTopology: true
   })
   .then(() => {
-    console.log("Mongo Atlas connected ...")
+    console.log('Mongo Atlas connected ...');
   })
-  .catch(e => console.log(e))
+  .catch(e => console.log(e));
 
-module.exports = mongoose
+module.exports = mongoose;

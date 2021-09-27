@@ -1,36 +1,36 @@
-const mongoose = require("mongoose")
-const { Schema, model } = mongoose
+const mongoose = require('mongoose');
+const { Schema, model } = mongoose;
 
 const CheckSchema = new Schema({
   date: {
     type: Date,
-    required: true,
+    required: true
   },
   litres: {
     type: Number,
-    required: true,
+    required: true
   },
   checkImageUrl: {
-    type: String,
+    type: String
   },
   tlg_file_id: {
     type: String,
-    required: true,
+    required: true
   },
   tlg_file_unique_id: {
     type: String,
-    required: true,
+    required: true
   },
   carId: {
     type: mongoose.ObjectId,
-    required: true,
+    required: true
   },
   driverId: {
     type: mongoose.ObjectId,
-    required: true,
-  },
-})
+    required: true
+  }
+});
 
-const Check = model("check", CheckSchema)
+const Check = model('check', CheckSchema);
 
-module.exports = Check
+module.exports = Check;

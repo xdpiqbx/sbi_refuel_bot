@@ -20,12 +20,18 @@ module.exports = {
 
     const firstDay = 1;
 
+    startDate.setHours(3);
+    startDate.setMinutes(0);
+    startDate.setSeconds(0);
     startDate.setDate(firstDay);
     startDate.setMonth(month);
     startDate.setFullYear(2021);
 
     const lastDay = lastDayOfMonth(startDate).getDate();
 
+    endDate.setHours(23);
+    endDate.setMinutes(59);
+    endDate.setSeconds(59);
     endDate.setDate(lastDay);
     endDate.setMonth(month);
     endDate.setFullYear(2021);

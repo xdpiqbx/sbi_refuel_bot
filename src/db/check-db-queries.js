@@ -19,9 +19,10 @@ module.exports = {
     const endDate = new Date();
 
     const firstDay = 1;
+    const utc_offset = Math.abs(endDate.getTimezoneOffset());
 
-    startDate.setHours(3);
-    startDate.setMinutes(0);
+    startDate.setHours(0);
+    startDate.setMinutes(utc_offset);
     startDate.setSeconds(0);
     startDate.setDate(firstDay);
     startDate.setMonth(month);
@@ -35,6 +36,11 @@ module.exports = {
     endDate.setDate(lastDay);
     endDate.setMonth(month);
     endDate.setFullYear(2021);
+
+    endDate.setMinutes(endDate.getMinutes() + utc_offset);
+
+    // console.log(startDate);
+    // console.log(endDate);
 
     return await Check.find({
       carId,

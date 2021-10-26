@@ -18,7 +18,7 @@ require('./db/mongo-instance');
 const KB_BTNS = require('./keyboard-buttons');
 const ACTION = require('./inline-keyboard-actions');
 
-const state = require('./state');
+let state = require('./state');
 const initialState = JSON.stringify(state);
 
 const {
@@ -153,9 +153,10 @@ bot.on('callback_query', async query => {
   let driver = {};
   switch (dataFromQuery.action) {
     case ACTION.CARS_FOR_REFUEL:
+      bot.deleteMessage(query.message.chat.id, query.message.message_id);
       state.giveOutOrRefuel = false;
 
-      state.check.date = new Date(query.message.date * 1000);
+      // state.check.date = new Date(query.message.date * 1000);
       car = await getCarByIdWithoutDriversIds(dataFromQuery.id);
 
       state.check.carId = car._id;

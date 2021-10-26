@@ -2,8 +2,11 @@ const lastDayOfMonth = require('date-fns/lastDayOfMonth');
 
 const Check = require('./model/check.model');
 
+const { getCurrentDateAndTime } = require('../helper');
+
 module.exports = {
   saveCheckToDb: check => {
+    check.date = getCurrentDateAndTime();
     new Check(check).save();
   },
   getAllChecks: async () => {

@@ -18,7 +18,7 @@ require('./db/mongo-instance');
 const KB_BTNS = require('./keyboard-buttons');
 const ACTION = require('./inline-keyboard-actions');
 
-let state = require('./state');
+const state = require('./state');
 const initialState = JSON.stringify(state);
 
 const {
@@ -153,10 +153,9 @@ bot.on('callback_query', async query => {
   let driver = {};
   switch (dataFromQuery.action) {
     case ACTION.CARS_FOR_REFUEL:
-      bot.deleteMessage(query.message.chat.id, query.message.message_id);
       state.giveOutOrRefuel = false;
 
-      // state.check.date = new Date(query.message.date * 1000);
+      state.check.date = new Date(query.message.date * 1000);
       car = await getCarByIdWithoutDriversIds(dataFromQuery.id);
 
       state.check.carId = car._id;
@@ -225,8 +224,28 @@ bot.on('callback_query', async query => {
       break;
     case ACTION.CAR_STATISTIC:
       state.refuelStat.carId = dataFromQuery.id;
-      const checksByCarId = await getChecksByCarId(state.refuelStat.carId);
       const carForStat = await getCarByIdWithoutDriversIds(
+        state.refuelStat.carId
+      );
+
+      const years = [2021, 2022];
+
+      botMessages.getListOfYearsInline(
+        bot.sendMessage.bind(bot),
+        chatId,
+        years,
+        carForStat,
+        ACTION.GET_LIST_OF_YEARS
+      );
+      break;
+
+    case ACTION.GET_LIST_OF_YEARS:
+      const checksByCarId = await getChecksByCarId(
+        state.refuelStat.carId,
+        dataFromQuery.year
+      );
+
+      const carForStatRes = await getCarByIdWithoutDriversIds(
         state.refuelStat.carId
       );
 
@@ -253,7 +272,8 @@ bot.on('callback_query', async query => {
         bot.sendMessage.bind(bot),
         chatId,
         allUnicMonthses,
-        carForStat,
+        dataFromQuery.year,
+        carForStatRes,
         ACTION.GET_STATS_FOR_MONTH
       );
       break;
@@ -262,7 +282,8 @@ bot.on('callback_query', async query => {
       const checksByCarIdForSpecificMonth =
         await getChecksByCarIdForSpecificMonth(
           state.refuelStat.carId,
-          dataFromQuery.month
+          dataFromQuery.month,
+          dataFromQuery.year
         );
       const unicDates = [
         ...new Set(

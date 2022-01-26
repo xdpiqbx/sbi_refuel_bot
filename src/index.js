@@ -18,7 +18,7 @@ require('./db/mongo-instance');
 const KB_BTNS = require('./keyboard-buttons');
 const ACTION = require('./inline-keyboard-actions');
 
-const state = require('./state');
+let state = require('./state');
 const initialState = JSON.stringify(state);
 
 const {
